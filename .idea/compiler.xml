@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="KataPreprojectHibernate_1_1_4" />
+        <module name="KataPreprojectHibernate_1_1_4 NoTryResources" />
+        <module name="TaskJDBC" />
+        <module name="KataPreprojectHibernate_1_1_3-4" />
+        <module name="KataPreprojectHibernate_1_1_3(4)" />
+        <module name="KataPreprojectHibernate_1_1_4_NoTryResources" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>
