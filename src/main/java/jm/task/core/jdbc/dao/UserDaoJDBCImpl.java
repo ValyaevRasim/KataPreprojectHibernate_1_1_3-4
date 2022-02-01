@@ -3,6 +3,7 @@ package jm.task.core.jdbc.dao;
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
 
+import javax.transaction.Transaction;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +17,7 @@ public class UserDaoJDBCImpl implements UserDao {
     }
 
     public void createUsersTable() {
+        Transaction transaction = null;
         String strSql = "CREATE TABLE IF NOT EXISTS user("
                 + "id bigint(20) NOT NULL AUTO_INCREMENT PRIMARY KEY ,"
                 + "name varchar(30) NOT NULL, "
@@ -28,7 +30,11 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("createUsersTable - OK");
         } catch (SQLException e) {
             e.printStackTrace();
-
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -40,7 +46,13 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("dropUsersTable - OK");
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
+
     }
 
     public void saveUser(String name, String lastName, byte age) {
@@ -53,8 +65,14 @@ public class UserDaoJDBCImpl implements UserDao {
             connection.commit();
             System.out.println("saveUser - OK");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
+
     }
 
     public void removeUserById(long id) {
@@ -66,8 +84,14 @@ public class UserDaoJDBCImpl implements UserDao {
             connection.commit();
             System.out.println("removeUserById - OK");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
+
     }
 
     public List<User> getAllUsers() {
@@ -89,7 +113,13 @@ public class UserDaoJDBCImpl implements UserDao {
             Objects.requireNonNull(resultSet).close();
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
+
         return userList;
     }
 
@@ -101,6 +131,11 @@ public class UserDaoJDBCImpl implements UserDao {
             System.out.println("cleanUsersTable - OK");
         } catch (SQLException e) {
             e.printStackTrace();
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }

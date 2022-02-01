@@ -72,7 +72,7 @@ public class UserDaoHibernateImpl implements UserDao {
         try {
             session = sessionFactory.openSession();
             transaction = session.beginTransaction();
-            session.save(new User(name, lastName, age));
+            session.save(new User(name, lastName, age)); //persist() ведёт себя как save(), но он не возвращает id вновь сохранённой сущности
             transaction.commit();
         }catch (Exception e) {
             if (transaction != null) {

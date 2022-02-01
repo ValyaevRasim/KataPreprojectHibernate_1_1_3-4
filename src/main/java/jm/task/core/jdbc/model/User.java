@@ -29,6 +29,7 @@ public class User implements StatementInspector {
         this.name = name;
         this.lastName = lastName;
         this.age = age;
+        System.out.println("Создан класс User");
     }
 
     public Long getId() {
