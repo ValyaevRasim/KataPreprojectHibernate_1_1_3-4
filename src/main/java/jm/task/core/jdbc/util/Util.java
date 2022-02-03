@@ -8,6 +8,7 @@ import org.hibernate.cfg.Environment;
 import org.hibernate.service.ServiceRegistry;
 
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -20,12 +21,21 @@ public class Util {
     private static String unicode = "&autoReconnect=true&useUnicode=yes&characterEncoding=UTF-8";
     private static SessionFactory sessionFactory;
 
+    public Util() {
+        try {
+            Driver driver = new com.mysql.cj.jdbc.Driver();
+            DriverManager.registerDriver(driver);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static Connection getConnection() {
         Connection connection = null;
 
         try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(URL + unicode, USERNAME, PASSWORD);
+            connection.setAutoCommit(false);
             if (connection != null) {
                 connection.setAutoCommit(false);
             }
@@ -61,4 +71,5 @@ public class Util {
         }
         return sessionFactory;
     }
+
 }

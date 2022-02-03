@@ -12,7 +12,6 @@ public class UserDaoJDBCImpl implements UserDao {
     private final Connection connection = Util.getConnection();
 
     public UserDaoJDBCImpl() {
-
     }
 
     public void createUsersTable() {
@@ -22,23 +21,31 @@ public class UserDaoJDBCImpl implements UserDao {
                 + "lastName varchar(30) NOT NULL, "
                 + "age tinyint DEFAULT 1 "
                 + ");";
-        try (PreparedStatement statement = connection.prepareStatement(strSql)){
+        try (PreparedStatement statement = connection.prepareStatement(strSql)) {
             statement.executeUpdate(strSql);
             connection.commit();
             System.out.println("createUsersTable - OK");
         } catch (SQLException e) {
-            e.printStackTrace();
-
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
     public void dropUsersTable() {
         String strSql = "DROP TABLE IF EXISTS user;";
-        try (PreparedStatement statement = connection.prepareStatement(strSql)){
+        try (PreparedStatement statement = connection.prepareStatement(strSql)) {
             statement.executeUpdate(strSql);
             connection.commit();
             System.out.println("dropUsersTable - OK");
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
@@ -53,7 +60,12 @@ public class UserDaoJDBCImpl implements UserDao {
             connection.commit();
             System.out.println("saveUser - OK");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
         }
     }
 
@@ -66,7 +78,12 @@ public class UserDaoJDBCImpl implements UserDao {
             connection.commit();
             System.out.println("removeUserById - OK");
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
         }
     }
 
@@ -87,7 +104,13 @@ public class UserDaoJDBCImpl implements UserDao {
                 System.out.println("getAllUsers - OK");
             }
             Objects.requireNonNull(resultSet).close();
+            connection.commit();
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
         return userList;
@@ -100,6 +123,11 @@ public class UserDaoJDBCImpl implements UserDao {
             connection.commit();
             System.out.println("cleanUsersTable - OK");
         } catch (SQLException e) {
+            try {
+                connection.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             e.printStackTrace();
         }
     }
