@@ -110,7 +110,9 @@ public class UserDaoJDBCImpl implements UserDao {
                 userList.add(user);
                 System.out.println("getAllUsers - OK");
             }
+            connection.commit();
             Objects.requireNonNull(resultSet).close();
+            
         } catch (SQLException e) {
             e.printStackTrace();
             try {
