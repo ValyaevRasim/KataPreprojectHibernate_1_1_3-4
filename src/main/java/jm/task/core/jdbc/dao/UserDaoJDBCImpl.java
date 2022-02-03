@@ -31,6 +31,7 @@ public class UserDaoJDBCImpl implements UserDao {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
+            e.printStackTrace();
         }
     }
 
@@ -104,7 +105,6 @@ public class UserDaoJDBCImpl implements UserDao {
                 System.out.println("getAllUsers - OK");
             }
             Objects.requireNonNull(resultSet).close();
-            connection.commit();
         } catch (SQLException e) {
             try {
                 connection.rollback();
