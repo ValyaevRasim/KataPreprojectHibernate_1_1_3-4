@@ -24,13 +24,15 @@ public class Util {
         Connection connection = null;
 
         try {
-//            Class.forName("com.mysql.cj.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             connection = DriverManager.getConnection(URL + unicode, USERNAME, PASSWORD);
             if (connection != null) {
                 connection.setAutoCommit(false);
             }
         } catch (SQLException e) {
             System.out.println("К БД conn NO!" + e.getMessage());
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return connection;
